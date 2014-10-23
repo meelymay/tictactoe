@@ -19,6 +19,10 @@ def add_numbers():
     b = request.args.get('b', 0, type=int)
     return jsonify(result=a + b)
 
+@app.route('/play')
+def make_move():
+    print 'request args: ', request.args
+    return jsonify(x=0, y=0)
 
 @app.route('/')
 def index():

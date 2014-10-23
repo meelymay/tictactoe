@@ -1,34 +1,22 @@
 {% extends "layout.html" %}
 {% block body %}
-<script type="text/javascript">
-  $(function() {
-    var submit_form = function(e) {
-      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
-        a: $('input[name="a"]').val(),
-        b: $('input[name="b"]').val()
-      }, function(data) {
-        $('#result').text(data.result);
-        $('input[name=a]').focus().select();
-      });
-      return false;
-    };
-
-    $('a#calculate').bind('click', submit_form);
-
-    $('input[type=text]').bind('keydown', function(e) {
-      if (e.keyCode == 13) {
-        submit_form(e);
-      }
-    });
-
-    $('input[name=a]').focus();
-  });
-</script>
-<h1>jQuery Example</h1>
-<p>
-  <input type="text" size="5" name="a"> +
-  <input type="text" size="5" name="b"> =
-  <span id="result">?</span>
-<p><a href=# id="calculate">calculate server side</a>
+ <div id="board">
+    <table border=1>
+      <tr id="row1">
+        <td id=cell00 height=50 width=50 align=center valign=center>&nbsp;</td>
+        <td id=cell10 height=50 width=50 align=center valign=center class="square">&nbsp;</td>
+        <td id=cell20 height=50 width=50 align=center valign=center class="square">&nbsp;</td>
+      </tr>
+      <tr id="row2">
+        <td id=cell01 height=50 width=50 align=center valign=center class="square">&nbsp;</td>
+        <td id=cell11 height=50 width=50 align=center valign=center class="square">&nbsp;</td>
+        <td id=cell21 height=50 width=50 align=center valign=center class="square">&nbsp;</td>
+      </tr>
+      <tr id="row3">
+        <td id=cell02 height=50 width=50 align=center valign=center class="square">&nbsp;</td>
+        <td id=cell12 height=50 width=50 align=center valign=center class="square">&nbsp;</td>
+        <td id=cell22 height=50 width=50 align=center valign=center class="square"></td>
+      </tr>
+    </table>
+  </div>
 {% endblock %}
-<div id='tictactoe'></div>
