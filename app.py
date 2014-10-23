@@ -8,6 +8,7 @@ def make_move():
     game = TicTacToe(3, session['board'])
     game.play_X(int(request.args['i']), int(request.args['j']))
     move = game.ai_move()
+    print "ai move",move
     if move:
         i,j = move
     else:
