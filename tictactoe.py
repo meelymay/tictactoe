@@ -1,6 +1,6 @@
 from random import randint
 
-class Board:
+class TicTacToe:
     def __init__(self, size, board=None):
         self.size = size
         if board:
@@ -8,28 +8,32 @@ class Board:
         else:
             self.board = [[0 for i in range(size)] for j in range(size)]
         
-    def playX(self, x, y):
+    def play_X(self, x, y):
         if self.is_occupied(x, y):
             raise Exception('That cell is already taken.')
         self.board[x][y] = 1
 
-    def playO(self, x, y):
+    def play_O(self, x, y):
         if self.is_occupied(x, y):
             raise Exception('That cell is already taken.')
         self.board[x][y] = -1
 
     # returns 1 if X wins, -1 if O wins, 0 otherwise
-    def has_winner(self):
+    def find_winner(self):
         for i in range(self.size):
+            print "row",self.board[i]
             score = sum(self.board[i])
             if abs(score) == self.size:
                 return score/abs(self.size)
-            score = sum([self.board[i][j] for j in range(self.size)])
+            score = sum([self.board[j][i] for j in range(self.size)])
+            print "column",[self.board[j][i] for j in range(self.size)]
             if abs(score) == self.size:
                 return score/abs(self.size)
+        print "diag",[self.board[j][j] for j in range(self.size)]
         score = sum([self.board[j][j] for j in range(self.size)])
         if abs(score) == self.size:
             return score/abs(self.size)
+        print "revdiag",[self.board[self.size-j-1][j] for j in range(self.size)]
         score = sum([self.board[self.size-j-1][j] for j in range(self.size)])
         if abs(score) == self.size:
             return score/abs(self.size)
@@ -40,7 +44,7 @@ class Board:
 
     def random_move(self):
         # TODO this place for checking is inefficient
-        if self.has_winner():
+        if self.find_winner():
             return None
         x = -1
         y = -1
