@@ -1,28 +1,20 @@
-# -*- coding: utf-8 -*-
-"""
-    jQuery Example
-    ~~~~~~~~~~~~~~
-
-    A simple application that shows how Flask and jQuery get along.
-
-    :copyright: (c) 2014 by Armin Ronacher.
-    :license: BSD, see LICENSE for more details.
-"""
 from flask import Flask, jsonify, render_template, request
+from tictactoe import *
 app = Flask(__name__)
 
-
-@app.route('/_add_numbers')
-def add_numbers():
-    """Add two numbers server side, ridiculous but well..."""
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
+game = Board(3)
+print "created a game board"
 
 @app.route('/play')
 def make_move():
-    print 'request args: ', request.args
-    return jsonify(x=0, y=0)
+    game.playX(int(request.args['i']), int(request.args['j']))
+    move = game.randomMove()
+    if move:
+        i,j = move
+    else:
+        return jsonify(winner='done')
+    game.playO(i, j)
+    return jsonify(x=i, y=j)
 
 @app.route('/')
 def index():

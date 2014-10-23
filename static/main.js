@@ -3,8 +3,12 @@ function createPlayFunc(cellTag, i, j) {
 	$.get('/play', {'i': i, 'j': j}, function(data) {
 		console.log('data: ' + data);
 		cellTag.html('X');
-		var aiPlayTag = $('#cell' + data['x'] + data['y']);
-		aiPlayTag.html('O');
+		if (data['winner'] === 'done') {
+		    console.log("well somebody won");
+		} else {
+		    var aiPlayTag = $('#cell' + data['x'] + data['y']);
+		    aiPlayTag.html('O');
+		}
 	    });
     };
 }
