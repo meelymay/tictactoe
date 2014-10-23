@@ -7,7 +7,7 @@ app = Flask(__name__)
 def make_move():
     game = TicTacToe(3, session['board'])
     game.play_X(int(request.args['i']), int(request.args['j']))
-    move = game.random_move()
+    move = game.ai_move()
     if move:
         i,j = move
     else:
