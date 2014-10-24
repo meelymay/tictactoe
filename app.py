@@ -7,15 +7,15 @@ app = Flask(__name__)
 def make_move():
     game = TicTacToe(3, session['board'])
     game.play_X(int(request.args['i']), int(request.args['j']))
-    move = game.ai_move()
-    print "ai move",move
-    if move:
-        i,j = move
-    else:
-        # TODO if the computer wins won't notice until next move
-        return jsonify(status='done', winner=game.find_winner())
+    status = game.status()
+    if status:
+        return jsonify(status=status)
+
+    i,j = game.ai_move()
     game.play_O(i, j)
-    return jsonify(x=i, y=j)
+    status = game.status()
+    return jsonify(status=status,
+                   x=i, y=j)
 
 @app.route('/')
 def index():

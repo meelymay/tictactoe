@@ -2,12 +2,17 @@ function createPlayFunc(cellTag, i, j) {
     return function(e) {
 	$.get('/play', {'i': i, 'j': j}, function(data) {
 		cellTag.html('X');
-		console.log('data: ' + data);
-		if (data['status'] === 'done') {
-		    $('#winner').html("well the game is over..." + data['winner']);
-		} else {
+		if ('x' in data) {
 		    var aiPlayTag = $('#cell' + data['x'] + data['y']);
 		    aiPlayTag.html('O');
+		}
+		var status = data['status'];
+		if (status !== null) {
+		    var message = "Well, the game is over..." + status;
+		    if (status !== 'tie') {
+			message = message + " wins!";
+		    }
+		    $('#winner').html(message);
 		}
 	    });
     };
