@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, request, session
 from tictactoe import *
+from ai import GameAI
 import random
 app = Flask(__name__)
 
@@ -11,7 +12,7 @@ def make_move():
     if status:
         return jsonify(status=status)
 
-    i,j = game.ai_move()
+    i,j = GameAI().move(Player.O, game)
     game.play_O(i, j)
     status = game.status()
     return jsonify(status=status,

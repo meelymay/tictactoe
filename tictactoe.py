@@ -28,15 +28,20 @@ class TicTacToe:
     def play_O(self, x, y):
         self.play(Player.O, x, y)
 
+    def full(self):
+        for i in range(self.size):
+            for j in range(self.size):
+                if not self.is_occupied(i,j):
+                    return False
+        return True
+
     def status(self):
         winner = self.find_winner()
         if winner:
             return winner
         else:
-            for i in range(self.size):
-                for j in range(self.size):
-                    if not self.is_occupied(i,j):
-                        return None
+            if not self.full():
+                return Status.IN_PROGRESS
             return Status.TIE
 
     def find_winner(self):
@@ -174,3 +179,11 @@ class TicTacToe:
             return edge
 
         raise Exception('Should have covered all the cases...')
+
+    def __str__(self):
+        s = ''
+        for row in self.board:
+            for cell in row:
+                s += str(cell) + ' '
+            s += '\n'
+        return s
