@@ -177,67 +177,11 @@ class TestTicTacToe(unittest.TestCase):
         game = TicTacToe(3)
         self.assertEquals(game.ai_move(), (1,1))
 
-    def test_tree_ai(self):
-        game = TicTacToe(3)
-        game.play_O(0,1)
-        game.play_O(0,2)
-        game.play_O(2,1)
-        game.play_O(2,2)
-        game.play_X(0,0)
-        game.play_X(1,1)
-        game.play_X(1,2)
-        game.play_X(2,0)
-        self.assertEqual(GameAI().move(Player.X, game), (1,0))
-
-        game = TicTacToe(3)
-        game.play_X(0,1)
-        game.play_X(0,2)
-        game.play_X(2,1)
-        game.play_X(2,2)
-        game.play_O(0,0)
-        game.play_O(1,1)
-        game.play_O(1,2)
-        game.play_O(2,0)
-        self.assertEqual(GameAI().move(Player.O, game), (1,0))
-
-        game = TicTacToe(3)
-        game.play_O(0,1)
-        game.play_O(0,2)
-        game.play_O(2,1)
-        game.play_X(0,0)
-        game.play_X(1,1)
-        game.play_X(1,2)
-        game.play_X(2,0)
-        self.assertEqual(GameAI().move(Player.O, game), (1,0))
-
-        game = TicTacToe(3)
-        game.play_X(0,1)
-        game.play_X(0,2)
-        self.assertEqual(GameAI().move(Player.O, game), (0,0))
-
-        game = TicTacToe(3)
-        game.play_O(0,1)
-        game.play_O(0,2)
-        self.assertEqual(GameAI().move(Player.O, game), (0,0))
-
-        print "\n\nDIAGONAL O O"
-        game = TicTacToe(3)
-        game.play_O(0,0)
-        game.play_O(1,1)
-        self.assertEqual(GameAI().move(Player.X, game), (2,2))
-
-        print "\n\nDIAGONAL X X"
-        game = TicTacToe(3)
-        game.play_X(0,0)
-        game.play_X(1,1)
-        self.assertEqual(GameAI().move(Player.X, game), (2,2))
-
     def test_game_tree(self):
         game = TicTacToe(3)
         game.play_X(0,0)
         game.play_X(1,1)
         tree = GameTree(game, Player.O, None)
-        print "tree complete"
         self.assertEqual(tree.play(Player.O, game), (2,2))
         
         game = TicTacToe(3)
