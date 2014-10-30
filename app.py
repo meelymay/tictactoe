@@ -4,7 +4,7 @@ from ai import GameTree
 import random
 app = Flask(__name__)
 
-AI = None
+AI = GameTree(TicTacToe(3), Player.X)
 
 @app.route('/play')
 def make_move():
@@ -14,11 +14,7 @@ def make_move():
     status = game.status()
     if status:
         return jsonify(status=status)
-
-    #i,j = GameTree(game, Player.O).play(Player.O, game)
-    print game
     i,j = AI.play(Player.O, game)
-    print "AI playing",i,j
     game.play_O(i, j)
     status = game.status()
     return jsonify(status=status,
@@ -32,12 +28,5 @@ def index():
 
 if __name__ == '__main__':
     app.secret_key = 'computer cat'
-
-    AI = GameTree(TicTacToe(3), Player.X)
-    for p in AI.mini_max:
-        print "PLAYER",p,"'s MOVES"
-        for g in AI.mini_max[p]:
-            print g
-            print AI.mini_max[p][g].next_move,AI.mini_max[p][g].score,"\n"
 
     app.run(debug=True)

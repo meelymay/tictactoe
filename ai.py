@@ -9,15 +9,22 @@ STATUS_TO_SCORE = {Status.TIE: 0,
 class GameTree:
     def __init__(self, game, player,
                  mini_max=None,
-                 move=None,
                  depth=0):
         if mini_max is None:
             mini_max = {Player.X: {}, Player.O: {}}
         self.node = game
         self.player = player
-        self.children = []
-        self.move = move
+        verbose = False not in [game.board[1][0] == 1,
+                                game.board[0][1] == 1,
+                                game.board[0][2] == 1,
+                                game.board[2][1] == 1,
+                                game.board[0][0] == -1,
+                                game.board[1][1] == -1,
+                                game.board[1][2] == -1,
+                                game.board[2][0] == -1]
+
         if game.status() == Status.IN_PROGRESS:
+            children = {}
             for i in range(game.size):
                 for j in range(game.size):
                     if game.is_occupied(i,j):
@@ -30,12 +37,11 @@ class GameTree:
                     else:
                         child = GameTree(tmp_game, -player,
                                          mini_max=mini_max,
-                                         move=(i,j),
                                          depth=depth+1)
-                    self.children.append(child)
-            max_child = max(self.children, key=lambda x: -x.score)
-            self.score = -max_child.score
-            self.next_move = max_child.move
+                    children[(i,j)] = child
+            max_child = max(children, key=lambda x: -children[x].score)
+            self.score = -children[max_child].score
+            self.next_move = max_child
         else:
             self.score = self.calc_score(game, player, depth)
             self.next_move = None
@@ -53,5 +59,4 @@ class GameTree:
 
     def play(self, player, game):
         mini_max = self.mini_max[player][str(game)]
-        print "player", player, '\n',game, mini_max.next_move,'\n'
         return mini_max.next_move
