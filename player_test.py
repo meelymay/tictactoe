@@ -103,14 +103,14 @@ class TestPlayers(unittest.TestCase):
         game.play_X(0,2)
         game.play_O(0,1)
         game.play_X(1,1)
-        self.assertEqual(tree.play(Player.O, game), (2,0))
+        self.assertEqual(tree.play(game), (2,0))
         
         game = TicTacToe(3)
         game.play_X(0,1)
         game.play_X(1,0)
         game.play_O(0,0)
         game.play_O(1,1)
-        self.assertEqual(tree.play(Player.X, game), (2,2))
+        self.assertEqual(tree.play(game, player=Player.X), (2,2))
 
         game = TicTacToe(3)
         game.play_X(0,1)
@@ -121,7 +121,7 @@ class TestPlayers(unittest.TestCase):
         game.play_O(1,1)
         game.play_O(1,2)
         game.play_O(2,0)
-        self.assertEqual(tree.play(Player.X, game), (1,0))
+        self.assertEqual(tree.play(game, player=Player.X), (1,0))
 
         game = TicTacToe(3)
         game.play_O(0,1)
@@ -131,19 +131,19 @@ class TestPlayers(unittest.TestCase):
         game.play_X(1,1)
         game.play_X(1,2)
         game.play_X(2,0)
-        self.assertEqual(tree.play(Player.O, game), (1,0))
+        self.assertEqual(tree.play(game), (1,0))
 
         game = TicTacToe(3)
         game.play_X(0,1)
         game.play_O(1,1)
         game.play_X(0,2)
-        self.assertEqual(tree.play(Player.O, game), (0,0))
+        self.assertEqual(tree.play(game), (0,0))
 
         game = TicTacToe(3)
         game.play_X(0,1)
         game.play_O(1,1)
         game.play_X(0,2)
-        self.assertEqual(tree.play(Player.O, game), (0,0))
+        self.assertEqual(tree.play(game), (0,0))
 
 if __name__ == '__main__':
     unittest.main()

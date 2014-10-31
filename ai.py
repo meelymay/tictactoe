@@ -58,7 +58,7 @@ class GameTree(AIPlayer):
         else:
             return 0
 
-    def play(self, player, game):
+    def play(self, game, player=Player.O):
         mini_max = self.mini_max[player][str(game)]
         return mini_max.next_move
 
