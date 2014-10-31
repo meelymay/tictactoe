@@ -1,0 +1,24 @@
+class TestPlayers:
+
+    def test_ai(self):
+        for i in range(5):
+            game = TicTacToe(3)
+            while game.status() == Status.IN_PROGRESS:
+                x,y = game.random_move()
+                game.play_X(x,y)
+                if game.status() == Status.IN_PROGRESS:
+                    x,y = game.ai_move()
+                    game.play_O(x,y)
+            status = game.status()
+            self.assertTrue(status in (Status.TIE, Status.O_WINS))
+
+        game = TicTacToe(3)
+        while game.status() == Status.IN_PROGRESS:
+            x,y = game.ai_move()
+            game.play_X(x,y)
+            if game.status() == Status.IN_PROGRESS:
+                x,y = game.ai_move()
+                game.play_O(x,y)
+        status = game.status()
+        self.assertEquals(status, Status.TIE)
+

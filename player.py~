@@ -1,0 +1,16 @@
+from tictactoe import *
+
+class Player:
+  def play(self, game):
+      x = -1
+      y = -1
+      if game.full():
+          return None
+      while self.is_occupied(x, y):
+          x = randint(0,2)
+          y = randint(0,2)
+      if x < 0 or y < 0:
+          raise Exception("Couldn't find a spot to play, but board wasn't full.")
+      return (x, y)
+
+

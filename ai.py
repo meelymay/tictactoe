@@ -1,12 +1,13 @@
 from tictactoe import *
 from copy import deepcopy
+from player import AIPlayer
 
 STATUS_TO_SCORE = {Status.TIE: 0,
                    Status.X_WINS: 100,
                    Status.O_WINS: -100,
                    Status.IN_PROGRESS: None}
 
-class GameTree:
+class GameTree(AIPlayer):
     def __init__(self, game, player,
                  mini_max=None,
                  depth=0):
@@ -60,3 +61,4 @@ class GameTree:
     def play(self, player, game):
         mini_max = self.mini_max[player][str(game)]
         return mini_max.next_move
+
