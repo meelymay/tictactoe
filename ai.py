@@ -12,34 +12,32 @@ class GameTree(AIPlayer):
                  mini_max=None,
                  depth=0):
         if mini_max is None:
+            # initialize the mini_max dictionary for the whole Tree
             mini_max = {Player.X: {}, Player.O: {}}
-        self.node = game
-        self.player = player
-        verbose = False not in [game.board[1][0] == 1,
-                                game.board[0][1] == 1,
-                                game.board[0][2] == 1,
-                                game.board[2][1] == 1,
-                                game.board[0][0] == -1,
-                                game.board[1][1] == -1,
-                                game.board[1][2] == -1,
-                                game.board[2][0] == -1]
-
         if game.status() == Status.IN_PROGRESS:
             children = {}
             for i in range(game.size):
                 for j in range(game.size):
                     if game.is_occupied(i,j):
                         continue
+                    # create a temporary board for each possible play, recurse
                     tmp_game = TicTacToe(game.size,
                                          deepcopy(game.board))
                     tmp_game.play(player, i, j)
+                    # memoization
                     if str(tmp_game) in mini_max[-player]:
                         child = mini_max[-player][str(tmp_game)]
                     else:
-                        child = GameTree(tmp_game, -player,
+                        child = GameTree(tmp_game,
+                                         # player switches
+                                         -player,
+                                         # children inherit parent's mini_max dict
+                                         # (to populate it)
                                          mini_max=mini_max,
+                                         # one move deeper
                                          depth=depth+1)
                     children[(i,j)] = child
+            # choose the move which maximizes player's score (minimizes -player's)
             max_child = max(children, key=lambda x: -children[x].score)
             self.score = -children[max_child].score
             self.next_move = max_child
@@ -50,7 +48,10 @@ class GameTree(AIPlayer):
         self.mini_max = mini_max
 
     def calc_score(self, game, player, depth):
+        # valued scores for winning/losing
+        # mulitply by player to make positive if win, negative if loss
         base_score = STATUS_TO_SCORE[game.status()]*player
+        # include depth, we want to win sooner, lose later
         if base_score < 0:
             return depth - 2**(game.size**2)
         elif base_score > 0:
@@ -58,6 +59,7 @@ class GameTree(AIPlayer):
         else:
             return 0
 
+    # play the move which maximizes score for player (mini_max)
     def play(self, game, player=Player.O):
         mini_max = self.mini_max[player][str(game)]
         return mini_max.next_move

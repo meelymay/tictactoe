@@ -17,6 +17,7 @@ class TicTacToe:
         else:
             self.board = [[0 for i in range(size)] for j in range(size)]
 
+    # player plays in space (x, y)
     def play(self, player, x, y):
         if self.is_occupied(x, y):
             raise Exception('That cell is already taken.')
@@ -28,13 +29,7 @@ class TicTacToe:
     def play_O(self, x, y):
         self.play(Player.O, x, y)
 
-    def full(self):
-        for i in range(self.size):
-            for j in range(self.size):
-                if not self.is_occupied(i,j):
-                    return False
-        return True
-
+    # return if the game is tied or won, or in progress
     def status(self):
         winner = self.find_winner()
         if winner:
@@ -43,6 +38,13 @@ class TicTacToe:
             if not self.full():
                 return Status.IN_PROGRESS
             return Status.TIE
+
+    def full(self):
+        for i in range(self.size):
+            for j in range(self.size):
+                if not self.is_occupied(i,j):
+                    return False
+        return True
 
     def find_winner(self):
         if self.find_occupied_seq(self.size):
@@ -69,6 +71,7 @@ class TicTacToe:
             return (Direction.REV, 0)
         return None
 
+    # checks if a space has already been played in
     def is_occupied(self, x, y):
         return self.board[x][y] != 0
 

@@ -1,6 +1,10 @@
 function createPlayFunc(cellTag, i, j) {
     return function(e) {
 	$.get('/play', {'i': i, 'j': j}, function(data) {
+		if ($('#winner').html() !== "" ||
+		    cellTag.html() === 'O' || cellTag.html() === 'X') {
+		    return;
+		}
 		cellTag.html('X');
 		if ('x' in data) {
 		    var aiPlayTag = $('#cell' + data['x'] + data['y']);
